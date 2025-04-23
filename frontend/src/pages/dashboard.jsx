@@ -17,7 +17,7 @@ export default function Dashboard() {
 
   const fetchSeats = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/seats", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -43,7 +43,7 @@ export default function Dashboard() {
     if (selectedSeats.length === 0) return alert("Select at least one seat");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/seats/book", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats/book`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
