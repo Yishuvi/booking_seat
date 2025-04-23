@@ -3,14 +3,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
-  const { name, email, password } = req.body;
+  const {username,email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const pool = req.app.get('db');
 
   try {
-    await Pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, hashedPassword]);
+    await pool.query(
+    'INSERT INTO users (username, email, password) VALUES ($1, $2, $3)',
+  [username, email, hashedPassword]
+  );
     res.status(201).send({ message: 'User created' });
   } catch (err) {
+    console.error(err);
     res.status(400).send({ error: 'User already exists or invalid input' });
   }
 };
