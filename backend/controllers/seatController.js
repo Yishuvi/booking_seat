@@ -6,6 +6,7 @@ exports.getSeats = async (req, res) => {
 };
 
 exports.reserveSeats = async (req, res) => {
+  console.log('Request body:', req.body);
   const { count } = req.body;
   const userId = req.user.id;
 

@@ -17,15 +17,19 @@ export default function Dashboard() {
 
   const fetchSeats = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats`,{
         headers: { Authorization: `Bearer ${token}` },
       });
+      const text = await res.text(); // Read as text instead of json
+    console.log("Response Text:", text);
+
       const data = await res.json();
       setSeats(data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching seats:", error);
       setLoading(false);
+      console.log("API Base URL:", process.env.NEXT_PUBLIC_API_URL);
     }
   };
 
@@ -43,7 +47,7 @@ export default function Dashboard() {
     if (selectedSeats.length === 0) return alert("Select at least one seat");
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats/book`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/seats/book`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,6 +63,7 @@ export default function Dashboard() {
       alert(err.message || "Booking failed");
     } finally {
       setLoading(false);
+      console.log("API Base URL:", process.env.NEXT_PUBLIC_API_URL);
     }
   };
 
@@ -67,7 +72,7 @@ export default function Dashboard() {
     if (!confirm) return;
     setLoading(true);
     try {
-      await fetch("http://localhost:3000/api/reset", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reset`,{
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -77,6 +82,7 @@ export default function Dashboard() {
       console.error("Reset failed", err);
     } finally {
       setLoading(false);
+      console.log("API Base URL:", process.env.NEXT_PUBLIC_API_URL);
     }
   };
 
